@@ -12,142 +12,252 @@
     padding: 20px;
     overflow: hidden;
   }
-  h1 { color: #4ade80; margin-bottom: 10px; }
-  #bins { display:flex; justify-content:center; gap:30px; margin-top:20px; }
+
+  h1 {
+    color: #4ade80;
+    margin-bottom: 10px;
+  }
+
+  #bins {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+  }
+
   .bin {
-    width:120px; height:150px; border:3px dashed #555; border-radius:15px;
-    padding-top:20px; transition:.3s; background:rgba(255,255,255,.05);
+    width: 120px;
+    height: 150px;
+    border: 3px dashed #555;
+    border-radius: 15px;
+    padding-top: 20px;
+    transition: 0.3s;
+    background-color: rgba(255,255,255,0.05);
   }
-  .bin:hover { background:rgba(255,255,255,.1); }
+
+  .bin:hover {
+    background-color: rgba(255,255,255,0.1);
+  }
+
   #item {
-    position:absolute; font-size:60px; top:100px; left:50%;
-    transform:translateX(-50%); cursor:grab;
+    position: absolute;
+    font-size: 60px;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: grab;
+    transition: top 2s linear;
   }
-  #score,#timer{font-size:22px;margin:10px;}
-  #message{font-size:18px;color:#93c5fd;margin-top:15px;min-height:24px;}
-  #end,#difficulty{
-    position:absolute; top:40%; left:50%; transform:translate(-50%,-50%);
-    background:rgba(0,0,0,.8); padding:30px; border-radius:20px;
+
+  #score, #timer {
+    font-size: 22px;
+    margin: 10px;
   }
-  #end{display:none;}
-  button{
-    background:#22c55e;color:#fff;border:none;padding:10px 20px;
-    margin:5px;border-radius:8px;cursor:pointer;
+
+  #message {
+    font-size: 18px;
+    color: #93c5fd;
+    margin-top: 15px;
+    min-height: 24px;
   }
-  button:hover{background:#16a34a;}
+
+  #end, #difficulty {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0,0,0,0.8);
+    padding: 30px;
+    border-radius: 20px;
+  }
+
+  #end {
+    display: none;
+  }
+
+  button {
+    background-color: #22c55e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  button:hover {
+    background-color: #16a34a;
+  }
 </style>
 </head>
+
 <body>
-<h1>♻️ Mission: Zero Waste</h1>
-<div id="score">Score: 0</div>
-<div id="timer">⏱️ Time: --</div>
+  <h1>♻️ Mission: Zero Waste</h1>
 
-<div id="bins">
-<div class="bin" id="plastic">🔵 Plastic</div>
-<div class="bin" id="paper">🟡 Paper</div>
-<div class="bin" id="glass">🟢 Glass</div>
-<div class="bin" id="bio">🟤 Organic Waste</div>
-</div>
+  <div id="score">Score: 0</div>
+  <div id="timer">⏱️ Time: --</div>
 
-<div id="message"></div>
+  <div id="bins">
+    <div class="bin" id="plastic">🔵 Plastic</div>
+    <div class="bin" id="paper">🟡 Paper</div>
+    <div class="bin" id="glass">🟢 Glass</div>
+    <div class="bin" id="bio">🟤 Organic Waste</div>
+  </div>
 
-<div id="difficulty">
-<h2>Select Difficulty</h2>
-<button onclick="startGame('easy')">🟢 Easy</button>
-<button onclick="startGame('medium')">🟡 Medium</button>
-<button onclick="startGame('hard')">🔴 Expert</button>
-</div>
+  <div id="message"></div>
 
-<div id="end">
-<h2>🏁 Game Over!</h2>
-<p id="finalScore"></p>
-<button onclick="location.reload()">Play Again</button>
-</div>
+  <div id="difficulty">
+    <h2>Select Difficulty:</h2>
+    <button onclick="startGame('easy')">🟢 Easy</button>
+    <button onclick="startGame('medium')">🟡 Medium</button>
+    <button onclick="startGame('hard')">🔴 Expert</button>
+  </div>
+
+  <div id="end">
+    <h2>🏁 Game Over!</h2>
+    <p id="finalScore"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
 
 <script>
-const items=[
-{emoji:"🧴",type:"plastic",fact:"Plastic takes around 400 years to decompose."},
-{emoji:"🍾",type:"glass",fact:"Glass can be recycled endlessly."},
-{emoji:"📰",type:"paper",fact:"Recycling paper helps save trees 🌳"},
-{emoji:"🍎",type:"bio",fact:"Organic waste can be turned into compost 🌿"},
-{emoji:"🥤",type:"plastic",fact:"Every bottle can become a new product."},
-{emoji:"📦",type:"paper",fact:"Cardboard is 100% recyclable ♻️"},
-{emoji:"🍌",type:"bio",fact:"Organic waste should not be burned 🔥"}
-];
+  const items = [
+    {
+      emoji: "🧴",
+      type: "plastic",
+      fact: "Plastic takes around 400 years to decompose."
+    },
+    {
+      emoji: "🍾",
+      type: "glass",
+      fact: "Glass can be recycled endlessly."
+    },
+    {
+      emoji: "📰",
+      type: "paper",
+      fact: "Recycling paper helps save trees 🌳"
+    },
+    {
+      emoji: "🍎",
+      type: "bio",
+      fact: "Organic waste can be turned into compost 🌿"
+    },
+    {
+      emoji: "🥤",
+      type: "plastic",
+      fact: "Every plastic bottle can become a new product."
+    },
+    {
+      emoji: "📦",
+      type: "paper",
+      fact: "Cardboard is 100% recyclable ♻️"
+    },
+    {
+      emoji: "🍌",
+      type: "bio",
+      fact: "Organic waste should not be burned 🔥"
+    }
+  ];
 
-let score=0,timeLeft,speed,gameRunning=false;
-const bins=document.querySelectorAll('.bin');
-const scoreEl=document.getElementById("score");
-const timerEl=document.getElementById("timer");
-const messageEl=document.getElementById("message");
-const endEl=document.getElementById("end");
-const diffEl=document.getElementById("difficulty");
-const finalScore=document.getElementById("finalScore");
+  let score = 0;
+  let timeLeft;
+  let speed;
+  let gameRunning = false;
 
-const itemEl=document.createElement("div");
-itemEl.id="item";
-document.body.appendChild(itemEl);
+  const bins = document.querySelectorAll('.bin');
+  const scoreEl = document.getElementById("score");
+  const timerEl = document.getElementById("timer");
+  const messageEl = document.getElementById("message");
+  const endEl = document.getElementById("end");
+  const diffEl = document.getElementById("difficulty");
+  const finalScore = document.getElementById("finalScore");
 
-function startGame(level){
- diffEl.style.display="none";
- gameRunning=true;
- if(level==="easy"){timeLeft=40;speed=2500;}
- else if(level==="medium"){timeLeft=30;speed=1800;}
- else{timeLeft=20;speed=1200;}
- timerEl.textContent="⏱️ Time: "+timeLeft;
- newItem();
- countdown();
-}
+  const itemEl = document.createElement("div");
+  itemEl.id = "item";
+  document.body.appendChild(itemEl);
 
-function newItem(){
- if(!gameRunning)return;
- const random=items[Math.floor(Math.random()*items.length)];
- itemEl.textContent=random.emoji;
- itemEl.dataset.type=random.type;
- itemEl.dataset.fact=random.fact;
- itemEl.style.top="100px";
- itemEl.style.left=Math.random()*(window.innerWidth-80)+"px";
-}
+  function startGame(level) {
+    diffEl.style.display = "none";
+    gameRunning = true;
 
-bins.forEach(bin=>{
- bin.addEventListener("dragover",e=>e.preventDefault());
- bin.addEventListener("drop",()=>{
-   if(!gameRunning)return;
-   if(itemEl.dataset.type===bin.id){
-      score++;
-      messageEl.textContent="✅ "+itemEl.dataset.fact;
-   }else{
-      score--;
-      messageEl.textContent="❌ Wrong bin!";
-   }
-   scoreEl.textContent="Score: "+score;
-   newItem();
- });
-});
+    if (level === "easy") {
+      timeLeft = 40;
+      speed = 2500;
+    } else if (level === "medium") {
+      timeLeft = 30;
+      speed = 1800;
+    } else {
+      timeLeft = 20;
+      speed = 1200;
+    }
 
-itemEl.draggable=true;
-itemEl.addEventListener("dragstart",e=>{
- e.dataTransfer.setData("type",itemEl.dataset.type);
-});
+    timerEl.textContent = "⏱️ Time: " + timeLeft;
+    newItem();
+    countdown();
+  }
 
-function countdown(){
- const timer=setInterval(()=>{
-   if(!gameRunning){clearInterval(timer);return;}
-   timeLeft--;
-   timerEl.textContent="⏱️ Time: "+timeLeft;
-   if(timeLeft<=0){
-     clearInterval(timer);
-     endGame();
-   }
- },1000);
-}
+  function newItem() {
+    if (!gameRunning) return;
 
-function endGame(){
- gameRunning=false;
- itemEl.remove();
- endEl.style.display="block";
- finalScore.textContent=`Your final score is ${score} points.`;
-}
+    const random = items[Math.floor(Math.random() * items.length)];
+
+    itemEl.textContent = random.emoji;
+    itemEl.dataset.type = random.type;
+    itemEl.dataset.fact = random.fact;
+    itemEl.style.top = "100px";
+    itemEl.style.left = Math.random() * (window.innerWidth - 80) + "px";
+  }
+
+  bins.forEach(bin => {
+    bin.addEventListener("dragover", e => e.preventDefault());
+
+    bin.addEventListener("drop", e => {
+      if (!gameRunning) return;
+
+      const dragged = itemEl.dataset.type;
+
+      if (dragged === bin.id) {
+        score++;
+        messageEl.textContent = "✅ " + itemEl.dataset.fact;
+      } else {
+        score--;
+        messageEl.textContent = "❌ Wrong bin!";
+      }
+
+      scoreEl.textContent = "Score: " + score;
+      newItem();
+    });
+  });
+
+  itemEl.draggable = true;
+
+  itemEl.addEventListener("dragstart", e => {
+    e.dataTransfer.setData("type", itemEl.dataset.type);
+  });
+
+  function countdown() {
+    const timer = setInterval(() => {
+      if (!gameRunning) {
+        clearInterval(timer);
+        return;
+      }
+
+      timeLeft--;
+      timerEl.textContent = "⏱️ Time: " + timeLeft;
+
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        endGame();
+      }
+    }, 1000);
+  }
+
+  function endGame() {
+    gameRunning = false;
+    itemEl.remove();
+    endEl.style.display = "block";
+    finalScore.textContent = `Your final score is ${score} points.`;
+  }
 </script>
 </body>
 </html>
